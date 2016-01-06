@@ -7,10 +7,10 @@ import urllib2
 from bs4 import BeautifulSoup
 
 class crawl_Proxy(crawl.Crawl):
-    def __init__(self):
+    def __init__(self,test_url = "http://www.baidu.com/"):
         self.domestic_proxy_url = "http://www.haodailiip.com/guonei/"
         self.timeout = 5
-        self.testUrl = "http://www.baidu.com/"
+        self.testUrl = test_url
 
     def crawl_proxy(self,max_pages=50000):
         pages = 1
@@ -42,7 +42,7 @@ class crawl_Proxy(crawl.Crawl):
             time.sleep(5)
         return whole_list
 
-    def checkProxy(self,pages=10):
+    def checkProxy(self,pages=3):
         cookies = urllib2.HTTPCookieProcessor()
         proxy_list = self.crawl_proxy(pages)
         checkedProxyList = []
