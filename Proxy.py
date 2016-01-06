@@ -69,6 +69,7 @@ class crawl_Proxy(crawl.Crawl):
         top_proxies = ranked_proxy[0:num]
         proxyfw = open("proxy list.txt","w")
         for proxy in top_proxies:
+            print proxy
             prox = str(proxy[0]) + " " + str(proxy[1]) + "\n"
             proxyfw.write(prox)
         proxyfw.close
