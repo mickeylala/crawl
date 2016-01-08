@@ -6,7 +6,7 @@ import time
 import urllib2
 from bs4 import BeautifulSoup
 
-class crawl_Proxy(crawl.Crawl):
+class Proxy(crawl.Crawl):
     def __init__(self,test_url = "http://www.baidu.com/"):
         self.domestic_proxy_url = "http://www.haodailiip.com/guonei/"
         self.timeout = 5
@@ -64,12 +64,14 @@ class crawl_Proxy(crawl.Crawl):
         return checkedProxyList
 
     def pick_good_proxy(self,num=10):
+        final_list = []
         proxy_list = self.checkProxy()
         ranked_proxy = sorted(proxy_list,key=lambda x:x[2])
         top_proxies = ranked_proxy[0:num]
         proxyfw = open("proxy list.txt","w")
         for proxy in top_proxies:
-            print proxy
             prox = str(proxy[0]) + " " + str(proxy[1]) + "\n"
             proxyfw.write(prox)
+            final_list.append([proxy[0],proxy[1]])
         proxyfw.close
+        return final_list

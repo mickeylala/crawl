@@ -4,17 +4,20 @@
 import JD
 import sys
 import threading
-import Proxy
+import proxy
 import crawl
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-
-proxy = Proxy.crawl_Proxy()
+'''
+proxy = proxy.Proxy()
 proxy.pick_good_proxy()
-#list = proxy.crawl_proxy(1)
-#print list
-#print len(list)
-#check = Proxy.ProxyCheck(list)
-#check.start()
+'''
+
+
+proxy = ["10.131.64.125","80"]
+agent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0"
+test = crawl.Crawl()
+a = test.get_url_proxy("http://item.jd.com/1856588.html",proxy,agent)
+print a.read()

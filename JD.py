@@ -1,28 +1,36 @@
 #-*- coding:utf8 -*-
 #coding=utf-8
 
-import crawl
 import ast
+import random
+import proxy
 from bs4 import BeautifulSoup
 
-class JD_crawl(crawl.Crawl):
+class JD_crawl(proxy.Proxy):
     next_page = "下一页"
     invalid_sign = "抱歉，没有找到相关的商品"
 
     def __init__(self):
+        proxy.Proxy.__init__()
         self.sort_page = "http://www.jd.com/allSort.aspx"
+        self.agent_list = [
+            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0",
+            "User-Agent	Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",
+            "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0"
+        ]
 
-    def crawl_from_catalog(self,cat,filename="default",max_pages=50000):
+    def crawl_from_catalog(self,cat,proxy_list,filename="default",max_pages=50000,):
         page = 1
-        Line_1 = "URL\n"
+        proxy = self.open_proxy(proxy_list)
+        agent = self.open_agent()
         ch_filename = filename.replace("/","&")
-        # ch_filename = ch_filename.decode('utf-8').encode('cp936')
         path = "./links/" +  str(ch_filename) + ".txt"
         path = path.decode('utf-8').encode('cp936')
         fw = open(path,'a')
         while page <= max_pages:
             list_url = "http://list.jd.com/list.html?cat=" + str(cat) + "&page=" + str(page) + "&JL=6_0_0"
-            plain_text = self.get_url_text(list_url)
+            plain_text = self.get_url_text_proxy(list_url,proxy,agent)
             urls = self.get_all_product_links_from_catalog(plain_text)
             if self.is_this_page_valid(plain_text):
                 urls = self.get_all_product_links_from_catalog(plain_text)
@@ -110,3 +118,13 @@ class JD_crawl(crawl.Crawl):
             return True
         else:
             return False
+
+    def open_proxy(self,proxy_list):
+        proxy = random.choice(proxy_list)
+        print proxy
+        return proxy
+
+    def open_agent(self):
+        agent = random.choice(self.agent_list)
+        print agent
+        return agent
