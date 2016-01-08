@@ -83,6 +83,12 @@ class Crawl():
             except httplib.IncompleteRead:
                 tried_times += 1
                 self.get_url(url,tried_times)
+            except urllib2.URLError:
+                tried_times += 1
+                self.get_url(url,tried_times)
+            except socket.timeout:
+                tried_times += 1
+                self.get_url(url,tried_times)
             except requests.exceptions.RequestException as e:
                 print e
                 sys.exit(1)
@@ -95,6 +101,12 @@ class Crawl():
                 text = source_code.read()
                 return text
             except AttributeError:
+                tried_times += 1
+                self.get_url_text_proxy(url, proxy, agent,tried_times)
+            except urllib2.URLError:
+                tried_times += 1
+                self.get_url_text_proxy(url, proxy, agent,tried_times)
+            except socket.timeout:
                 tried_times += 1
                 self.get_url_text_proxy(url, proxy, agent,tried_times)
         return "error"

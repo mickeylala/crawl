@@ -21,16 +21,25 @@ class CrawlJD(threading.Thread,JD.JD_crawl):
         for i in self.crawl_set:
             self.crawl_from_catalog(i[0],self.proxy_list,i[1])
 
+'''
+find_proxy = proxy.Proxy()
+proxy_list_1 = find_proxy.pick_good_proxy(10)
+print proxy_list_1
+'''
+
+fw = open("proxy list.txt","r")
+proxy_list = []
+text = fw.read().strip()
+for i in text.split("\n"):
+    proxy_list.append(i.split(" "))
+print proxy_list
 
 
-proxy = proxy.crawl_Proxy()
-list = proxy.crawl_proxy(10)
-
-
-jd = CrawlJD(list)
+jd = CrawlJD(proxy_list)
 threads = jd.create_class("JD",10)
 sets = jd.seprate_set(jd.crawl_sort_page(),10)
 combined =zip(threads, sets)
 for thread,set in combined:
-    thread = CrawlJD(set)
+    thread = CrawlJD(proxy_list,set)
     thread.start()
+

@@ -11,7 +11,7 @@ class JD_crawl(proxy.Proxy):
     invalid_sign = "抱歉，没有找到相关的商品"
 
     def __init__(self):
-        proxy.Proxy.__init__()
+        proxy.Proxy.__init__(self)
         self.sort_page = "http://www.jd.com/allSort.aspx"
         self.agent_list = [
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36",
@@ -121,10 +121,8 @@ class JD_crawl(proxy.Proxy):
 
     def open_proxy(self,proxy_list):
         proxy = random.choice(proxy_list)
-        print proxy
         return proxy
 
     def open_agent(self):
         agent = random.choice(self.agent_list)
-        print agent
         return agent

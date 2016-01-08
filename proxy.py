@@ -7,10 +7,11 @@ import urllib2
 from bs4 import BeautifulSoup
 
 class Proxy(crawl.Crawl):
-    def __init__(self,test_url = "http://www.baidu.com/"):
+    def __init__(self,test_url="http://www.jd.com/intro/about.aspx"):
         self.domestic_proxy_url = "http://www.haodailiip.com/guonei/"
         self.timeout = 5
         self.testUrl = test_url
+        self.teststring = "misc.360buyimg.com"
 
     def crawl_proxy(self,max_pages=50000):
         pages = 1
@@ -55,7 +56,7 @@ class Proxy(crawl.Crawl):
                 req = opener.open(self.testUrl, timeout=self.timeout)
                 result = req.read()
                 timeused = time.time() - t1
-                if result != "" or None:
+                if self.teststring in result:
                     checkedProxyList.append((proxy[0],proxy[1],timeused))
                 else:
                      continue
