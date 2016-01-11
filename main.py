@@ -18,22 +18,26 @@ class CrawlJD(threading.Thread,JD.JD_crawl):
         self.proxy_list = proxy_list
 
     def run(self):
+        fw = open("crawled.txt","r")
+        cats = fw.read()
         for i in self.crawl_set:
-            self.crawl_from_catalog(i[0],self.proxy_list,i[1])
+            if not i[0] in cats:
+                self.crawl_from_catalog(i[0],self.proxy_list,i[1])
 
-'''
+
+
+
 find_proxy = proxy.Proxy()
-proxy_list_1 = find_proxy.pick_good_proxy(10)
-print proxy_list_1
-'''
+proxy_list = find_proxy.pick_good_proxy(10)
 
+'''
 fw = open("proxy list.txt","r")
 proxy_list = []
 text = fw.read().strip()
 for i in text.split("\n"):
     proxy_list.append(i.split(" "))
 print proxy_list
-
+'''
 
 jd = CrawlJD(proxy_list)
 threads = jd.create_class("JD",10)

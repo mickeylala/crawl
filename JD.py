@@ -43,6 +43,10 @@ class JD_crawl(proxy.Proxy):
                 break
             page += 1
         fw.close
+        fp = open("crawled.txt","w")
+        cats = str(cat) + " "
+        fp.write(cats)
+        fp.close()
         print "%s crawling finished!" %filename
 
     def get_all_product_links_from_catalog(self,text):
